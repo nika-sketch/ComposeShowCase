@@ -4,22 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.composeshowcase.animation.GraphicsLayerTextAnimation
+import com.example.composeshowcase.animation.RotationTextAnimation
 import com.example.composeshowcase.ui.theme.ComposeShowCaseTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,28 +26,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeShowCaseTheme {
-
-                val infiniteTransition = rememberInfiniteTransition()
-                val rotationAngle by infiniteTransition.animateFloat(
-                    initialValue = 0f,
-                    targetValue = 360f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(durationMillis = 3000, easing = FastOutSlowInEasing),
-                        repeatMode = RepeatMode.Restart
-                    )
-                )
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .graphicsLayer {
-                                rotationZ = rotationAngle
-                            }
-                    )
+                    SampleContent(innerPadding)
                 }
             }
         }
+    }
+}
+
+@Composable
+fun SampleContent(padding: PaddingValues) {
+    Column(
+        modifier = Modifier.padding(padding)
+    ) {
+        GraphicsLayerTextAnimation(
+            modifier = Modifier
+                .padding(padding)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        RotationTextAnimation(
+            modifier = Modifier.padding(padding)
+        )
     }
 }
 
